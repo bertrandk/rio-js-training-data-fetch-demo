@@ -40,6 +40,14 @@ In the `HackerNewsSearch` component:
 
 ```
 
+## Exercise Two
+
+It's never fun to stare at a blank page when fetching data. Lets add a loading indicator.
+
+- Add a state value to keep track of if the data is loading
+- While the data is loading, displaying a loading place holder text
+- Once the data resolves - display the results
+
 ## API Response
 
 The result from the API contains quite a bit of data. The full schema is blow, however the key values we care abbout are the `hits` array, which is the result object.
