@@ -6,7 +6,7 @@ Recall, that during the mounting phase of the React Lifecycle, it will invoke
 - render
 - `componentDidMount`
 
-It is a common pratice, and also mentioned in the [React Documentation](https://reactjs.org/docs/react-component.html#componentdidmount) to use the `componentDidMount` hook to fetch data.
+It is a common practice and also mentioned in the [React Documentation](https://reactjs.org/docs/react-component.html#componentdidmount) to use the `componentDidMount` hook to fetch data.
 
 For this exercise, we will be building a simple search for HackerNews and listing the results.
 
@@ -55,7 +55,7 @@ It's never fun to stare at a blank page when fetching data. Lets add a loading i
 - When the value changes, execute the search
   - _note_ it may not be desirable to search on every key stroke, consider possibly using onBlur, or having a form with a submit button - up to you.
   - React uses Synthetic events, [Synthetic Event Documentation](https://reactjs.org/docs/events.html)
-- The request should be run with the new paramater
+- The request should be run with the new parameter
 
 ### value vs defaultValue - onBlur and onChange
 
@@ -79,9 +79,9 @@ Warning: Failed prop type: You provided a `value` prop to a form field without a
 
 ## API Response
 
-The result from the API contains quite a bit of data. The full schema is blow, however the key values we care abbout are the `hits` array, which is the result object.
+The result from the API contains quite a bit of data. The full schema is blow, however, the key values we care about are the `hits` array, which is the result object.
 
-For this pratice, we only care about:
+For this practice, we only care about:
 
 - title
 - url
