@@ -6,20 +6,24 @@ class HackerNewsSearch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      results: []
+      results: [],
+      isLoading: false
     };
   }
   componentDidMount() {
+    this.setState({ isLoading: true });
     fetch(API)
       .then(result => result.json())
       .then(({ hits }) => {
-        this.setState({ results: hits });
+        this.setState({ results: hits, isLoading: false });
       });
   }
 
   render() {
-    let { results } = this.state;
-    return (
+    let { results, isLoading } = this.state;
+    return isLoading ? (
+      <div>...... please wait</div>
+    ) : (
       <ul>
         {results.map(result => {
           return (
