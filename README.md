@@ -77,6 +77,16 @@ And check the console when you start to notice something is off. You may notice 
 Warning: Failed prop type: You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
 ```
 
+## Exercise Four - Use your imagination
+
+- Can we break out the HackerNews component into smaller building blocks?
+- Can we improve the styling?
+- Can we make generic atoms for a list, and then hacker news specific ones ontop?
+- What about error handling?
+- Maybe try adding paging
+- Or sorting results
+- What other features of https://news.ycombinator.com/ could you try to build?
+
 ## API Response
 
 The result from the API contains quite a bit of data. The full schema is blow, however, the key values we care about are the `hits` array, which is the result object.
