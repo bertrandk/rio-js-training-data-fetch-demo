@@ -1,68 +1,161 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Data Fetch Demo - Class Component
 
-## Available Scripts
+Recall, that during the mounting phase of the React Lifecycle, it will invoke
 
-In the project directory, you can run:
+- constructor
+- render
+- `componentDidMount`
 
-### `npm start`
+It is a common practice and also mentioned in the [React Documentation](https://reactjs.org/docs/react-component.html#componentdidmount) to use the `componentDidMount` hook to fetch data.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+For this exercise, we will be building a simple search for HackerNews and listing the results.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+The API we will be using to query is:
 
-### `npm test`
+`https://hn.algolia.com/api/v1/search?query=`
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Exercise One
 
-### `npm run build`
+In the `HackerNewsSearch` component:
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- set an initial state property called `results` that is an empty array.
+  - _note_ it is common to do `this.state = ....` in the constructor.
+- this is the only time it is ok to directly mutate the state,
+- any other time - use `this.setState({})`
+- implement the `componentDidMount` lifecycle method
+  - Use fetch to query Hackers News for `react`,
+  - the url will be: `https://hn.algolia.com/api/v1/search?query=react`
+- Once fetch resolves
+  - update the component state with the results
+- Implement the `render` method to display the list of results, see notes on the API response format below.
+- The list should display the title - and be a link to the article.
+- When rendering a list of components, you should specify a key attribute.
+- You can use `objectID` as the value for the key.
+  Keys help React identify which items have changed, are added, or are removed. Keys should be given to the elements inside the array to give the elements a stable identity: [React Docs for more details](https://reactjs.org/docs/lists-and-keys.html#keys)
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+```html
+<ul>
+    <li><a href="https://code.facebook.com/posts/300798627056246">Relicensing React, Jest, Flow, and Immutable.js<a></li>
+</ul>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
 
-### `npm run eject`
+## Exercise Two
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+It's never fun to stare at a blank page when fetching data. Lets add a loading indicator.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Add a state value to keep track of if the data is loading
+- While the data is loading, displaying a loading place holder text
+- Once the data resolves - display the results
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Exercise Three
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Allow the user to specify what they want to search for
+- Have an input field on the screen
+- When the value changes, execute the search
+  - _note_ it may not be desirable to search on every key stroke, consider possibly using onBlur, or having a form with a submit button - up to you.
+  - React uses Synthetic events, [Synthetic Event Documentation](https://reactjs.org/docs/events.html)
+- The request should be run with the new parameter
 
-## Learn More
+### value vs defaultValue - onBlur and onChange
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+For the field input, try:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```jsx
+<input onBlur={this.yourSearchHandler} defaultValue={query} />
+```
 
-### Code Splitting
+and
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+```jsx
+<input onBlur={this.yourSearchHandler} value={query} />
+```
 
-### Analyzing the Bundle Size
+And check the console when you start to notice something is off. You may notice the warning:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+```
+Warning: Failed prop type: You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+```
 
-### Making a Progressive Web App
+## API Response
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+The result from the API contains quite a bit of data. The full schema is blow, however, the key values we care about are the `hits` array, which is the result object.
 
-### Advanced Configuration
+For this practice, we only care about:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+- title
+- url
+- objectID
 
-### Deployment
+```json
+{
+  "hits": [
+    {
+      "title": "Relicensing React, Jest, Flow, and Immutable.js",
+      "url": "https://code.facebook.com/posts/300798627056246",
+      "objectID": "15316175"
+    }
+  ],
+  "nbHits": 143847,
+  "page": 0,
+  "nbPages": 50,
+  "hitsPerPage": 20,
+  "processingTimeMS": 3,
+  "exhaustiveNbHits": false,
+  "query": "react",
+  "params": "advancedSyntax=true\u0026analytics=false\u0026query=react"
+}
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+## Full Results Object
 
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+```json
+{
+  "hits": [
+    {
+      "created_at": "2017-09-22T21:51:56.000Z",
+      "title": "Relicensing React, Jest, Flow, and Immutable.js",
+      "url": "https://code.facebook.com/posts/300798627056246",
+      "author": "dwwoelfel",
+      "points": 2280,
+      "story_text": null,
+      "comment_text": null,
+      "num_comments": 498,
+      "story_id": null,
+      "story_title": null,
+      "story_url": null,
+      "parent_id": null,
+      "created_at_i": 1506117116,
+      "relevancy_score": 7675,
+      "_tags": ["story", "author_dwwoelfel", "story_15316175"],
+      "objectID": "15316175",
+      "_highlightResult": {
+        "title": {
+          "value": "Relicensing \u003cem\u003eReact\u003c/em\u003e, Jest, Flow, and Immutable.js",
+          "matchLevel": "full",
+          "fullyHighlighted": false,
+          "matchedWords": ["react"]
+        },
+        "url": {
+          "value": "https://code.facebook.com/posts/300798627056246",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "author": {
+          "value": "dwwoelfel",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      }
+    }
+  ],
+  "nbHits": 143847,
+  "page": 0,
+  "nbPages": 50,
+  "hitsPerPage": 20,
+  "processingTimeMS": 3,
+  "exhaustiveNbHits": false,
+  "query": "react",
+  "params": "advancedSyntax=true\u0026analytics=false\u0026query=react"
+}
+```
