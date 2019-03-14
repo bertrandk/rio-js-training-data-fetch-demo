@@ -57,6 +57,26 @@ It's never fun to stare at a blank page when fetching data. Lets add a loading i
   - React uses Synthetic events, [Synthetic Event Documentation](https://reactjs.org/docs/events.html)
 - The request should be run with the new paramater
 
+### value vs defaultValue - onBlur and onChange
+
+For the field input, try:
+
+```jsx
+<input onBlur={this.yourSearchHandler} defaultValue={query} />
+```
+
+and
+
+```jsx
+<input onBlur={this.yourSearchHandler} value={query} />
+```
+
+And check the console when you start to notice something is off. You may notice the warning:
+
+```
+Warning: Failed prop type: You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`.
+```
+
 ## API Response
 
 The result from the API contains quite a bit of data. The full schema is blow, however the key values we care abbout are the `hits` array, which is the result object.
