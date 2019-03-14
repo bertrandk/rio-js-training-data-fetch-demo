@@ -48,6 +48,15 @@ It's never fun to stare at a blank page when fetching data. Lets add a loading i
 - While the data is loading, displaying a loading place holder text
 - Once the data resolves - display the results
 
+## Exercise Three
+
+- Allow the user to specify what they want to search for
+- Have an input field on the screen
+- When the value changes, execute the search
+  - _note_ it may not be desirable to search on every key stroke, consider possibly using onBlur, or having a form with a submit button - up to you.
+  - React uses Synthetic events, [Synthetic Event Documentation](https://reactjs.org/docs/events.html)
+- The request should be run with the new paramater
+
 ## API Response
 
 The result from the API contains quite a bit of data. The full schema is blow, however the key values we care abbout are the `hits` array, which is the result object.
